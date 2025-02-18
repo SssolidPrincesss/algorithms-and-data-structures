@@ -12,7 +12,7 @@ public class Main {
         int count = numbers.size();
         if (count < 3) {
             System.out.println("Массив должен содержать хотя бы три числа."); 
-            return; // Выход из программы
+            return; 
         }
 
         int[] nums = new int[count];
@@ -27,7 +27,7 @@ public class Main {
   }
 
     public static int[] maximumProductNumbers(int[] nums) {
-        Arrays.sort(nums); // Sort the array
+        Arrays.sort(nums); 
 
         long product1 = (long) nums[nums.length - 1] * nums[nums.length - 2] * nums[nums.length - 3];
         long product2 = (long) nums[0] * nums[1] * nums[nums.length - 1];
