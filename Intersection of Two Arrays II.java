@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
-        ArrayList <Integer> list  = new ArrayList <Integer>();
+        var list  = new ArrayList <Integer>();
         int fCount = 0, sCount = 0;
         Arrays.sort(nums1);
         Arrays.sort(nums2);
