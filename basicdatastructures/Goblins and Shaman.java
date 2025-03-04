@@ -1,57 +1,49 @@
-/*
-этот код почему-то проходит не все тесты, и после множества 
-попыток и даже испольховния чата гпт я не могу найти причину 
-неправильной работы кода. Я понмаю, что эту задачу очень легко решить, 
-используя более современые структуры данных, но мне очень интересно разобраться
-с реализацией, где используются стеки и очереди 
-*/
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    static Scanner scanner = new Scanner(System.in);
 
-    public static void goblinQueue() {
-        int q = scanner.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int q = Integer.parseInt(br.readLine());
+
         Queue<Integer> goQu = new LinkedList<>();
-        Queue<Integer> allGoblins = new LinkedList<>();
+        Deque<Integer> front = new LinkedList<>();
+        Deque<Integer> back = new LinkedList<>();
+
         for (int i = 0; i < q; i++) {
-            String goblinStatus = scanner.next();
-            try {
-                int goblinNum = 0;
-                if (!goblinStatus.equals("-")) {
-                    goblinNum = scanner.nextInt();
+            String[] line = br.readLine().split(" ");
+            String goblinStatus = line[0];
+
+            if (goblinStatus.equals("*")) {
+                int goblinNum = Integer.parseInt(line[1]);
+                front.addLast(goblinNum);
+                balance(front, back);
+            } else if (goblinStatus.equals("+")) {
+                int goblinNum = Integer.parseInt(line[1]);
+                back.addLast(goblinNum);
+                balance(front, back);
+            } else {
+                if (!front.isEmpty()) {
+                    goQu.add(front.removeFirst());
+                    balance(front, back);
                 }
-                if (goblinStatus.equals("*")) {
-                    int size = allGoblins.size();
-                    int center = size / 2;
-                    List<Integer> tempList = new ArrayList<>();
-                    for (int j = 0; j < center; j++) {
-                        if (!allGoblins.isEmpty()) {
-                            tempList.add(allGoblins.poll());
-                        }
-                    }
-                    allGoblins.add(goblinNum);
-                    allGoblins.addAll(tempList);
-                } else if (goblinStatus.equals("+")) {
-                    allGoblins.add(goblinNum);
-                } else if (goblinStatus.equals("-")) {
-                    if (!allGoblins.isEmpty()) {
-                        goQu.add(allGoblins.poll());
-                    }
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Ошибка: Ожидалось целое число.");
-                scanner.next();
-                i--;
             }
         }
 
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         while (!goQu.isEmpty()) {
-            System.out.println(goQu.poll());
+            bw.write(goQu.remove() + "\n");
         }
+        bw.flush();
     }
 
-    public static void main(String[] args) {
-        goblinQueue();
+    static void balance(Deque<Integer> front, Deque<Integer> back) {
+        while (front.size() > back.size() + 1) {
+            back.addFirst(front.removeLast());
+        }
+        while (back.size() > front.size()) {
+            front.addLast(back.removeFirst());
+        }
     }
 }
