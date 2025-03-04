@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
 
 	public static int[] readData(){
-        Scanner scanner = new Scanner(System.in);
+        var scanner = new Scanner(System.in);
         int n = scanner.nextInt(); 
         var tr = new ArrayList<Integer>();
 
